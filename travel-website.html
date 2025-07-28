@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelQuest - Discover Your Next Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: 220 90% 50%;
+            --primary-foreground: 0 0% 98%;
+            --secondary: 39 100% 60%;
+            --secondary-foreground: 0 0% 9%;
+            --background: 0 0% 100%;
+            --foreground: 0 0% 3.9%;
+            --muted: 0 0% 96.1%;
+            --muted-foreground: 0 0% 45.1%;
+            --card: 0 0% 100%;
+            --card-foreground: 0 0% 3.9%;
+            --border: 0 0% 89.8%;
+            --input: 0 0% 89.8%;
+            --ring: 220 90% 50%;
+            --gradient-primary: linear-gradient(135deg, hsl(220 90% 50%), hsl(39 100% 60%));
+            --gradient-hero: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(251, 191, 36, 0.6));
+            --gradient-card: linear-gradient(180deg, hsl(220 14% 96%), hsl(220 13% 91%));
+            --shadow-travel: 0 10px 30px -10px hsl(220 90% 50% / 0.3);
+            --shadow-card: 0 4px 20px -4px hsl(220 90% 50% / 0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.5;
+            color: hsl(var(--foreground));
+            background-color: hsl(var(--background));
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            width: 100%;
+            border-bottom: 1px solid hsl(var(--border));
+            background: hsla(var(--background), 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            height: 4rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--gradient-primary);
+            border-radius: 0.5rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            display: none;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                display: flex;
+            }
+        }
+
+        nav a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: hsl(var(--primary));
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-primary:hover {
+            background: hsl(var(--primary) / 0.9);
+        }
+
+        .btn-gradient {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            box-shadow: var(--shadow-travel);
+        }
+
+        .btn-gradient:hover {
+            opacity: 0.9;
+        }
+
+        .btn-outline {
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-outline:hover {
+            background: hsl(var(--muted));
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: hsl(var(--foreground));
+            padding: 0.5rem;
+        }
+
+        .btn-ghost:hover {
+            background: hsl(var(--muted));
+        }
+
+        .btn-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&h=1080&fit=crop') center/cover;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-hero);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 4.5rem;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (min-width: 768px) {
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+        }
+
+        .search-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-travel);
+            margin-bottom: 3rem;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .search-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .search-input {
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.375rem;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: hsl(var(--secondary));
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Destinations Section */
+        .destinations {
+            padding: 5rem 0;
+            background: var(--gradient-card);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: hsl(var(--muted-foreground));
+            max-width: 32rem;
+            margin: 0 auto;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .destinations-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .destinations-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .destination-card {
+            background: hsl(var(--card));
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-travel);
+        }
+
+        .destination-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destination-image img {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .destination-card:hover .destination-image img {
+            transform: scale(1.1);
+        }
+
+        .destination-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .destination-price {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .destination-content {
+            padding: 1rem;
+        }
+
+        .destination-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .destination-name {
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .destination-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .destination-category {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .destination-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: hsl(var(--background));
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .features-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .feature-card {
+            background: hsl(var(--card));
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+
+        .feature-card:hover .feature-title {
+            color: hsl(var(--primary));
+        }
+
+        .feature-description {
+            color: hsl(var(--muted-foreground));
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: hsl(var(--foreground));
+            color: hsl(var(--background));
+            padding: 3rem 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+        }
+
+        .footer-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section ul li a:hover {
+            color: hsl(var(--primary));
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom {
+                flex-direction: row;
+            }
+        }
+
+        /* Cookie Consent */
+        .cookie-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .cookie-modal {
+            width: 100%;
+            max-width: 28rem;
+            background: hsl(var(--card));
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-travel);
+        }
+
+        .cookie-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .cookie-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cookie-title h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .cookie-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: hsl(var(--muted-foreground));
+            padding: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .cookie-description {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .icon {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .icon-lg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .text-primary {
+            color: hsl(var(--primary));
+        }
+
+        .text-secondary {
+            color: hsl(var(--secondary));
+        }
+
+        .w-full {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">TravelQuest</span>
+                </div>
+
+                <nav>
+                    <a href="#destinations">Destinations</a>
+                    <a href="#tours">Tours & Activities</a>
+                    <a href="#deals">Deals</a>
+                    <a href="#about">About</a>
+                </nav>
+
+                <div class="header-actions">
+                    <button class="btn btn-ghost btn-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                    </button>
+                    <button class="btn btn-outline">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Discover Your Next
+                <span class="text-secondary">Adventure</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Explore breathtaking destinations and unforgettable experiences around the world
+            </p>
+
+            <div class="search-card">
+                <div class="search-grid">
+                    <input type="text" class="search-input" placeholder="Where do you want to go?">
+                    <input type="date" class="search-input">
+                    <button class="btn btn-gradient w-full">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        Search Adventures
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Destinations</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">10k+</div>
+                    <div class="stat-label">Happy Travelers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="destinations">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    Popular <span class="text-primary">Destinations</span>
+                </h2>
+                <p class="section-subtitle">
+                    Discover the world's most breathtaking places and create memories that will last a lifetime
+                </p>
+            </div>
+
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&h=300&fit=crop" alt="Santorini">
+                        <div class="destination-badge">Best Sunset Views</div>
+                        <div class="destination-price">$299</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-header">
+                            <h3 class="destination-name">Santorini, Greece</h3>
+                            <div class="destination-rating">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <p class="destination-category">Beach & Islands</p>
+                        <div class="destination-meta">
+                            <span>3 days</span>
+                            <span>2847 reviews</span>
+                        </div>
+                        <button class="btn btn-gradient w-full">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&h=300&fit=crop" alt="Tokyo">
+                        <div class="destination-badge">Cherry Blossom Season</div>
+                        <div class="destination-price">$599</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-header">
+                            <h3 class="destination-name">Tokyo, Japan</h3>
+                            <div class="destination-rating">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span>4.8</span>
+                            </div>
+                        </div>
+                        <p class="destination-category">Culture & City</p>
+                        <div class="destination-meta">
+                            <span>5 days</span>
+                            <span>1923 reviews</span>
+                        </div>
+                        <button class="btn btn-gradient w-full">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=400&h=300&fit=crop" alt="Machu Picchu">
+                        <div class="destination-badge">UNESCO World Heritage</div>
+                        <div class="destination-price">$799</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-header">
+                            <h3 class="destination-name">Machu Picchu, Peru</h3>
+                            <div class="destination-rating">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <p class="destination-category">Adventure</p>
+                        <div class="destination-meta">
+                            <span>4 days</span>
+                            <span>3241 reviews</span>
+                        </div>
+                        <button class="btn btn-gradient w-full">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=400&h=300&fit=crop" alt="Dubai">
+                        <div class="destination-badge">Modern Architecture</div>
+                        <div class="destination-price">$699</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-header">
+                            <h3 class="destination-name">Dubai, UAE</h3>
+                            <div class="destination-rating">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <p class="destination-category">Luxury & Shopping</p>
+                        <div class="destination-meta">
+                            <span>4 days</span>
+                            <span>1567 reviews</span>
+                        </div>
+                        <button class="btn btn-gradient w-full">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=400&h=300&fit=crop" alt="Bali">
+                        <div class="destination-badge">Tropical Paradise</div>
+                        <div class="destination-price">$449</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-header">
+                            <h3 class="destination-name">Bali, Indonesia</h3>
+                            <div class="destination-rating">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span>4.8</span>
+                            </div>
+                        </div>
+                        <p class="destination-category">Beach & Culture</p>
+                        <div class="destination-meta">
+                            <span>6 days</span>
+                            <span>2156 reviews</span>
+                        </div>
+                        <button class="btn btn-gradient w-full">Book Now</button>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <img src="https://images.unsplash.com/photo-1502602898536-47ad22581b52?w=400&h=300&fit=crop" alt="Paris">
+                        <div class="destination-badge">City of Love</div>
+                        <div class="destination-price">$549</div>
+                    </div>
+                    <div class="destination-content">
+                        <div class="destination-header">
+                            <h3 class="destination-name">Paris, France</h3>
+                            <div class="destination-rating">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <p class="destination-category">Romance & Culture</p>
+                        <div class="destination-meta">
+                            <span>4 days</span>
+                            <span>4523 reviews</span>
+                        </div>
+                        <button class="btn btn-gradient w-full">Book Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn btn-outline">View All Destinations</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    Why Choose <span class="text-primary">TravelQuest</span>
+                </h2>
+                <p class="section-subtitle">
+                    We make travel planning effortless with our comprehensive services and expert support
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Secure Booking</h3>
+                    <p class="feature-description">Your payments and personal information are protected with enterprise-grade security.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">24/7 Support</h3>
+                    <p class="feature-description">Our travel experts are available around the clock to assist you with any questions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Best Price Guarantee</h3>
+                    <p class="feature-description">Find a lower price elsewhere? We'll match it and give you an additional discount.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Easy Payments</h3>
+                    <p class="feature-description">Flexible payment options including installments and multiple currency support.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Instant Confirmation</h3>
+                    <p class="feature-description">Get immediate booking confirmation and mobile tickets for hassle-free travel.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Local Expertise</h3>
+                    <p class="feature-description">Curated experiences by local experts who know the destinations inside and out.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <div class="logo-icon">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            </svg>
+                        </div>
+                        <span style="color: white; font-size: 1.25rem; font-weight: bold;">TravelQuest</span>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin-bottom: 1rem;">
+                        Your trusted partner for unforgettable travel experiences around the world. 
+                        Discover, explore, and create memories that last a lifetime.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Tours & Activities</a></li>
+                        <li><a href="#">Travel Guides</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Booking Support</a></li>
+                        <li><a href="#">Cancellation Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Stay Updated</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Subscribe to get exclusive deals and travel inspiration delivered to your inbox.
+                    </p>
+                    <input type="email" placeholder="Enter your email" style="width: 100%; padding: 0.75rem; border-radius: 0.375rem; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.1); color: white; margin-bottom: 0.5rem;">
+                    <button class="btn btn-gradient w-full">Subscribe</button>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.875rem;">
+                    © 2024 TravelQuest. All rights reserved.
+                </p>
+                <div style="display: flex; gap: 1.5rem; font-size: 0.875rem;">
+                    <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Cookie Policy</a>
+                    <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Modal -->
+    <div id="cookieConsent" class="cookie-overlay hidden">
+        <div class="cookie-modal">
+            <div class="cookie-header">
+                <div class="cookie-title">
+                    <svg class="icon text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"/>
+                    </svg>
+                    <h3>Cookie Settings</h3>
+                </div>
+                <button class="cookie-close" onclick="redirectToNextag()">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <p class="cookie-description">
+                We use cookies to enhance your browsing experience, provide personalized 
+                content, and analyze our traffic. By clicking any button below, you consent 
+                to our use of cookies.
+            </p>
+
+            <div class="cookie-buttons">
+                <button class="btn btn-gradient w-full" onclick="redirectToNextag()">
+                    Accept All Cookies
+                </button>
+                
+                <button class="btn btn-outline w-full" onclick="redirectToNextag()">
+                    Decline
+                </button>
+                
+                <button class="btn btn-outline w-full" onclick="redirectToNextag()">
+                    Customize Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show cookie consent after 1 second
+        setTimeout(function() {
+            document.getElementById('cookieConsent').classList.remove('hidden');
+        }, 1000);
+
+        // Redirect function
+        function redirectToNextag() {
+            window.location.href = 'https://nextagmedia.com';
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
